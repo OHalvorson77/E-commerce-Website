@@ -24,12 +24,15 @@ const Product = () => {
     const getProduct = async () => {
       setLoading(true);
       setLoading2(true);
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      console.log({id});
+      const response = await fetch(`http://localhost:8000/products/${id}`);
+      
       const data = await response.json();
       setProduct(data);
       setLoading(false);
+      console.log(data.category);
       const response2 = await fetch(
-        `https://fakestoreapi.com/products/category/${data.category}`
+        `http://localhost:8000/products/similar/${data.category}`
       );
       const data2 = await response2.json();
       setSimilarProducts(data2);
@@ -186,7 +189,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

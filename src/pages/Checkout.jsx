@@ -1,9 +1,27 @@
 import React from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import StripeContainer from "../components/StripeContainer.jsx";
+import {useState} from "react";
+import { useNavigate } from "react-router-dom";
+
+
+
 const Checkout = () => {
+  const navigate=useNavigate()
   const state = useSelector((state) => state.handleCart);
+ const[showItem, setShowItem]=useState(false)
+
+ const handleContinueToPayment = () => {
+  
+  // Perform any necessary actions here (e.g., submitting form data, making API calls).
+
+  // After performing actions, navigate to the new page.
+  navigate('/')// Replace "/payment" with the desired URL.
+};
+
+ 
 
   const EmptyCart = () => {
     return (
@@ -194,84 +212,15 @@ const Checkout = () => {
 
                     <hr className="my-4" />
 
-                    <h4 className="mb-3">Payment</h4>
-
-                    <div className="row gy-3">
-                      <div className="col-md-6">
-                        <label for="cc-name" className="form-label">
-                          Name on card
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="cc-name"
-                          placeholder=""
-                          required
-                        />
-                        <small className="text-muted">
-                          Full name as displayed on card
-                        </small>
-                        <div className="invalid-feedback">
-                          Name on card is required
-                        </div>
-                      </div>
-
-                      <div className="col-md-6">
-                        <label for="cc-number" className="form-label">
-                          Credit card number
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="cc-number"
-                          placeholder=""
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Credit card number is required
-                        </div>
-                      </div>
-
-                      <div className="col-md-3">
-                        <label for="cc-expiration" className="form-label">
-                          Expiration
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="cc-expiration"
-                          placeholder=""
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Expiration date required
-                        </div>
-                      </div>
-
-                      <div className="col-md-3">
-                        <label for="cc-cvv" className="form-label">
-                          CVV
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="cc-cvv"
-                          placeholder=""
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Security code required
-                        </div>
-                      </div>
-                    </div>
-
-                    <hr className="my-4" />
+                
 
                     <button
                       className="w-100 btn btn-primary "
-                      type="submit" disabled
-                    >
-                      Continue to checkout
+                    
+                      onClick={handleContinueToPayment}
+                      >
+                    
+                      Continue to Payment
                     </button>
                   </form>
                 </div>
@@ -290,6 +239,13 @@ const Checkout = () => {
         <hr />
         {state.length ? <ShowCheckout /> : <EmptyCart />}
       </div>
+      :
+  
+    <div className="App">
+      <h1> The Spatula Store</h1>
+      {showItem ? <StripeContainer/> : <> <button onClick={()=>setShowItem(true)}>Purchase Spatula</button></>}
+      </div>
+  
       <Footer />
     </>
   );
